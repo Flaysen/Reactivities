@@ -8,12 +8,15 @@ interface IProps {
     activity: IActivity
     createActivity: (activity: IActivity) => void;
     editActivity: (activity: IActivity) => void;
+    submitting: boolean;
 }
 
 const ActivityForm: React.FC<IProps> = ({
     setEditMode,
-     activity: initalFormState,    createActivity,
-    editActivity
+    activity: initalFormState,
+    createActivity,
+    editActivity,
+    submitting
 
 }) => {
 
@@ -48,11 +51,11 @@ const ActivityForm: React.FC<IProps> = ({
         }
     }
 
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const {name, value} = event.currentTarget;
-        setActivity({...activity, [event.target.name]: event.target.value})
+        setActivity({...activity, [name]: value })
     }
-
+    
     return (
         <Segment clearing>
             <Form onSubmit={handleSubmit}>
@@ -62,7 +65,7 @@ const ActivityForm: React.FC<IProps> = ({
                 <Form.Input onChange={handleInputChange} name='data' type='datetime-local' placeholder='Date' value={activity.date}/>
                 <Form.Input onChange={handleInputChange} name='city' placeholder='City' value={activity.city}/>
                 <Form.Input onChange={handleInputChange} name='venue' placeholder='Venue' value={activity.venue}/>
-                <Button floated='right' positive type='submit' content='Submit'/>
+                <Button  loading={submitting} floated='right' positive type='submit' content='Submit'/>
                 <Button onClick={() => setEditMode(false)} floated='right' type='submit' content='Cancel'/>
             </Form>
         </Segment>
