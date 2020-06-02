@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
 import {v4 as uuid } from 'uuid';
@@ -34,29 +34,29 @@ const ActivityForm: React.FC<IProps> = ({
             venue: ''
         };
     }
-    };
+};
 
-    const [activity, setActivity] = useState<IActivity>(initializeForm)
+const [activity, setActivity] = useState<IActivity>(initializeForm)
 
-    const handleSubmit = () => {
-        if(activity.id.length === 0) {
-            let newActivity = {
-                ...activity,
-                id: uuid()
-            }
-            createActivity(newActivity)
+const handleSubmit = () => {
+    if(activity.id.length === 0) {
+        let newActivity = {
+            ...activity,
+            id: uuid()
         }
-        else{
-            editActivity(activity);
-        }
+        createActivity(newActivity)
     }
+    else{
+        editActivity(activity);
+    }
+}
 
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const {name, value} = event.currentTarget;
-        setActivity({...activity, [name]: value })
-    }
-    
-    return (
+const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = event.currentTarget;
+    setActivity({...activity, [name]: value })
+}
+
+return (
         <Segment clearing>
             <Form onSubmit={handleSubmit}>
                 <Form.Input onChange={handleInputChange} name='title' placeholder='Title' value={activity.title}/>
@@ -69,7 +69,7 @@ const ActivityForm: React.FC<IProps> = ({
                 <Button onClick={() => setEditMode(false)} floated='right' type='submit' content='Cancel'/>
             </Form>
         </Segment>
-    )
+        )
 }
 
 export default ActivityForm

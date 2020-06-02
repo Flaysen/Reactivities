@@ -42,7 +42,6 @@ const ActivityDashboard: React.FC<IProps>= ({
                     submitting={submitting}
                     target={target}
                     />
-
             </Grid.Column>
             <GridColumn width={6}>
                 {selectedActivity && !editMode && (
